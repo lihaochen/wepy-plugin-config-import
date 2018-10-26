@@ -1,0 +1,40 @@
+{
+  "name": "wepy-plugin-config-import",
+  "version": "0.0.1",
+  "description": "A plugin for wepy to import native component like 'iviwe-weapp'.",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "rm -rf lib && ./node_modules/.bin/babel src --out-dir lib --ignore __tests__ --watch",
+    "lint": "eslint --ext .js src"
+  },
+  "author": "BryanLee",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel-core": "^7.0.0-0",
+    "eslint": "^2.7.0",
+    "eslint-config-standard": "^6.2.0",
+    "expect": "^1.13.4",
+    "fs-extra": "^7.0.0",
+    "pre-commit": "~1.1.2"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "useBuiltIns": "entry"
+        }
+      ]
+    ]
+  },
+  "files": [
+    "lib",
+    "package.json",
+    "README.md"
+  ],
+  "dependencies": {}
+}
