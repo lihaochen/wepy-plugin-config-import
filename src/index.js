@@ -9,17 +9,25 @@ function ImportComponentsAndReplacePath(components) {
     Object.keys(components).map(name => {
         // 如果 components 以 ~ 开头，则解析为 node_modules 中的包，此时对该组件进行copy并修改路径
         if (/^\~/.test(components[name])) {
-            ImportComponents.call(this, components[name])
-            let targetCompPath = path.resolve(process.cwd(), components[name].replace('~', 'dist/npm/'))
-            components[name] = path.relative(path.dirname(this.file), targetCompPath)
+            importComponents.call(this, components[name])
+            replaceImportPath.call(this, components)
         }
     })
 }
 
 /**
+ * replace path
+ */
+function replaceImportPath(components) {
+    let targetCompPath = path.resolve(process.cwd(), components[name].replace('~', 'dist/npm/'))
+    targetCompPath = path.resolve(targetCompPath, 'index')
+    components[name] = path.relative(path.dirname(this.file), targetCompPath)
+}
+
+/**
  * copy native component dir to `dist/npm`
  */
-function ImportComponents(component) {
+function importComponents(component) {
     let sourceComp = path.resolve(process.cwd(), component.replace('~', 'node_modules/'))
     let npmDir = component.replace('~', 'dist/npm/')
     let targetDir = path.resolve(process.cwd(), npmDir)
@@ -29,7 +37,6 @@ function ImportComponents(component) {
 
 export default class {
     constructor(options) {
-        console.log(options)
         return function doSomething() {
             // this is op
             if (this.type === 'config') {
