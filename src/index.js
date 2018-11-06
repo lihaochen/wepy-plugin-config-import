@@ -11,8 +11,8 @@ function ImportComponentsAndReplacePath(components) {
     Object.keys(components).map(name => {
         // 如果 components 以 ~ 开头，则解析为 node_modules 中的包，此时对该组件进行copy并修改路径
         if (/^\~/.test(components[name])) {
-            replaceImportPath.call(this, components, name)
             importComponents.call(this, components[name])
+            replaceImportPath.call(this, components, name)
         }
     })
 }

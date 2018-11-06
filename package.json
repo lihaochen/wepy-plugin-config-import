@@ -1,6 +1,6 @@
 {
   "name": "wepy-plugin-config-import",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A plugin for wepy to import native component like 'iviwe-weapp'.",
   "main": "lib/index.js",
   "scripts": {
