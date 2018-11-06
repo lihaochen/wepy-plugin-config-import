@@ -1,6 +1,8 @@
 import path from 'path'
 import fs from 'fs-extra'
 
+let _depList = []
+
 /**
  * 引入组件并替换 usingComponents 中的值
  * @param components 组件列表
@@ -9,8 +11,8 @@ function ImportComponentsAndReplacePath(components) {
     Object.keys(components).map(name => {
         // 如果 components 以 ~ 开头，则解析为 node_modules 中的包，此时对该组件进行copy并修改路径
         if (/^\~/.test(components[name])) {
-            importComponents.call(this, components[name])
             replaceImportPath.call(this, components, name)
+            importComponents.call(this, components[name])
         }
     })
 }
@@ -28,11 +30,15 @@ function replaceImportPath(components, name) {
  * copy native component dir to `dist/npm`
  */
 function importComponents(component) {
+    if (_depList.indexOf(component) > -1) {
+        return
+    }
     let sourceComp = path.resolve(process.cwd(), component.replace('~', 'node_modules/'))
     let npmDir = component.replace('~', 'dist/npm/')
     let targetDir = path.resolve(process.cwd(), npmDir)
     fs.copy(sourceComp, targetDir)
     this.output({ action: '写入', file: targetDir })
+    _depList.push(component)
 }
 
 export default class {
